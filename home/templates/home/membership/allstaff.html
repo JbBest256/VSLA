@@ -1,0 +1,85 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content%}
+
+						<!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+    <!--begin::Card-->
+<div class="card">
+
+    <!--begin::Team-->
+<div class="mb-18">        
+    <!--begin::Heading-->
+    <div class="text-center mb-17">
+        <!--begin::Title-->
+        <h3 class="fs-2hx text-gray-900 mb-5">Our Great Team Leaders</h3>
+        <!--end::Title-->
+
+        <!--begin::Sub-title-->
+        <div class="fs-5 text-muted fw-semibold">
+            It’s no doubt that when a development takes longer to complete, additional costs to<br/>
+            integrate and test each extra feature creeps up and haunts most of us.
+        </div>   
+        <!--end::Sub-title--->
+    </div>  
+    <!--end::Heading-->    
+    
+    <!--begin::Wrapper-->
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-xl-5 gy-10">
+	{% for staff in staffs %}
+    <!--begin::Item-->
+    <div class="col text-center mb-9">
+        <!--begin::Photo-->
+        <div class="octagon mx-auto mb-2 d-flex w-150px h-150px bgi-no-repeat bgi-size-contain bgi-position-center" 
+             style="background-image: url('{% if staff.assigned_staff.profile_image %}{{staff.assigned_staff.profile_image.url }}{% else %}{% static 'home/assets/media/svg/avatars/blank-dark.svg' %}{% endif %}')">
+        </div>
+        <!--end::Photo-->
+
+        <!--begin::Person-->
+        <div class="mb-0">
+            <!--begin::Name-->
+            <a href="user-profile/projects.html" class="text-gray-900 fw-bold text-hover-primary fs-12">
+                {{ staff.assigned_staff.first_name }} {{ staff.assigned_staff.last_name }}
+            </a>
+            <!--end::Name-->
+
+            <!--begin::Position-->
+            <div class="text-muted fs-6 fw-semibold">{{staff.staff_role}}</div>
+			  <div class="text-muted fs-6 fw-semibold">{{staff.assigned_staff.phone_number}}</div>
+            <!--end::Position-->
+        </div>
+        <!--end::Person-->
+    </div>
+    <!--end::Item--> 
+{% endfor %}
+              
+             
+    </div>
+    <!--end::Wrapper-->    
+</div>
+<!--end::Team-->
+</div>
+<!--end::Card--></div>
+<!--end::Container-->                	              	
+
+ 
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/table.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/export-users.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/add.js' %}"></script>
+                            
+                       
+							 <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+{% endblock %}

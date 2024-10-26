@@ -1,0 +1,80 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content%}
+
+						<!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+<!-- Guarantor Requests Card -->
+<div class="card">
+    <div class="card-header p-2">
+        <h5>My Guarantor Requests</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Loan Request</th>
+                    <th>Requested By</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+    {% for guarantor in guarantor_requests %}
+        <tr>
+            <td>{{ active_association.currency }}{{ guarantor.loan_request.amount }} - {{ guarantor.loan_request.status }}</td> <!-- Adjust as necessary -->
+            <td>{{ guarantor.loan_request.member.first_name }} {{ guarantor.loan_request.member.last_name }}</td>
+            <td>{{ guarantor.status }}</td>
+            <td>
+                {% if guarantor.loan_request.status != 'Approved' %}
+                    <form method="POST" action="{% url 'accept_guarantor_request' guarantor.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm m-1">Accept</button>
+                    </form>
+                    <form method="POST" action="{% url 'reject_guarantor_request' guarantor.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm m-1">Reject</button>
+                    </form>
+                {% else %}
+                    <span class="text-muted">Loan Approved</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No guarantor requests available</td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+        </table>
+    </div>
+</div>
+
+
+
+
+</div>
+<!--end::Container-->                	              	
+
+ 
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/table.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/export-users.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/add.js' %}"></script>
+                            
+                       
+							 <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+{% endblock %}

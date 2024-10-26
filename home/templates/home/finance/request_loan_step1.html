@@ -1,0 +1,124 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block css%}
+					
+					<!--begin::Vendor Stylesheets(used for this page only)-->
+                            <link href="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
+                        <!--end::Vendor Stylesheets-->
+	
+				{% endblock%}
+{% block content%}
+
+      <!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+    <!--begin::Card-->
+<!--begin::Basic info-->
+<div class="card mb-5 mb-xl-10">
+    <!--begin::Card header-->
+    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+        <!--begin::Card title-->
+        <div class="card-title m-0">
+            <h4 class="fw-bold m-0">Add New Account <span class="text- danger">{{error}}</span></h4>
+        </div>
+        <!--end::Card title-->
+    </div>
+    <!--begin::Card header-->
+
+    <!--begin::Content-->
+    <div id="kt_account_settings_profile_details" class="collapse show">
+<!--begin::Form-->
+<form method="POST" enctype="multipart/form-data" action="" id="loan_request_form" class="form m-3">
+    {% csrf_token %}
+
+    <!-- Hidden field for account (if applicable) -->
+    <input type="hidden" name="account" id="id_account" value="{{ account_id }}">
+
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger m-2">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Amount Field -->
+    <div class="row mb-6">
+        <label class="col-lg-4 col-form-label fw-semibold fs-6">Loan Amount</label>
+        <div class="col-lg-8 fv-row">
+            <input type="number" name="amount" id="id_amount" class="form-control" 
+                   value="{{ form.amount.value|default_if_none:'' }}" min="0" required>
+            <small class="form-text text-muted">{{ form.amount.help_text }}</small>
+            <div class="text-danger mt-2">
+                {% for error in form.amount.errors %}{{ error }}{% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Description Field -->
+    <div class="row mb-6">
+        <label class="col-lg-4 col-form-label fw-semibold fs-6">Description</label>
+        <div class="col-lg-8 fv-row">
+            <textarea name="description" id="id_description" class="form-control" required>{{ form.description.value|default_if_none:'' }}</textarea>
+            <small class="form-text text-muted">{{ form.description.help_text }}</small>
+            <div class="text-danger mt-2">
+                {% for error in form.description.errors %}{{ error }}{% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!--begin::Actions-->
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+        <button type="submit" class="btn btn-primary">Submit Loan Request</button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Basic info-->
+
+<!--end::Card--></div>
+<!--end::Container--> 
+{% endblock %}
+{% block Javascript%}
+	 
+        
+                   
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+                      
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+                <!--end::Javascript-->
+                    			
+				
+{% endblock%}
+ 

@@ -1,0 +1,248 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block css%}
+					
+					<!--begin::Vendor Stylesheets(used for this page only)-->
+                            <link href="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
+                        <!--end::Vendor Stylesheets-->
+	
+				{% endblock%}
+{% block content%}
+
+      <!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+    <!--begin::Card-->
+<!--begin::Basic info-->
+<div class="card mb-5 mb-xl-10">
+    <!--begin::Card header-->
+    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+        <!--begin::Card title-->
+        <div class="card-title m-0">
+            <h4 class="fw-bold m-0">Add New Account <span class="text- danger">{{error}}</span></h4>
+        </div>
+        <!--end::Card title-->
+    </div>
+    <!--begin::Card header-->
+
+    <!--begin::Content-->
+    <div id="kt_account_settings_profile_details" class="collapse show">
+<!--begin::Form-->
+<form method="POST" enctype="multipart/form-data" novalidate="novalidate" action="{% url 'newaccount' %}" id="kt_account_profile_details_form" class="form">
+    {% csrf_token %}
+    
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger m-2">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!--begin::Card body-->
+    <div class="card-body border-top p-9">
+
+        <!-- Name Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Name</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_name" name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter name" >
+                <small class="form-text text-muted">{{ form.name.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.name.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Share Price Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Share Price</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_share_price" name="share_price" class="form-control form-control-lg form-control-solid" placeholder="Enter share price" >
+                <small class="form-text text-muted">{{ form.share_price.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.share_price.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Minimum Deposit Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Minimum Deposit</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_minimum_deposit" name="minimum_deposit" class="form-control form-control-lg form-control-solid" placeholder="Enter minimum deposit" >
+                <small class="form-text text-muted">{{ form.minimum_deposit.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.minimum_deposit.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Maximum Deposit Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Maximum Deposit</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_maximum_deposit" name="maximum_deposit" class="form-control form-control-lg form-control-solid" placeholder="Enter maximum deposit" >
+                <small class="form-text text-muted">{{ form.maximum_deposit.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.maximum_deposit.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Interest Rate Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Interest Rate (%)</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_interest_rate" name="interest_rate" step="0.01" class="form-control form-control-lg form-control-solid" placeholder="Enter interest rate" >
+                <small class="form-text text-muted">{{ form.interest_rate.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.interest_rate.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Allow Loans Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Allow Loans</label>
+            <div class="col-lg-8 fv-row">
+                <input type="checkbox" id="id_allow_loans" name="allow_loans" class="form-check-input" >
+                <small class="form-text text-muted">{{ form.allow_loans.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.allow_loans.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Require Guarantor Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Require Guarantor</label>
+            <div class="col-lg-8 fv-row">
+                <input type="checkbox" id="id_require_guarantor" name="require_guarantor" class="form-check-input">
+                <small class="form-text text-muted">{{ form.require_guarantor.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.require_guarantor.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Guarantor Must Not Have Loan Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Guarantor Must Not Have Loan</label>
+            <div class="col-lg-8 fv-row">
+                <input type="checkbox" id="id_guarantor_must_not_have_loan" name="guarantor_must_not_have_loan" class="form-check-input" >
+                <small class="form-text text-muted">{{ form.guarantor_must_not_have_loan.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.guarantor_must_not_have_loan.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Guarantor Balance Must Cover Loan Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Guarantor Balance Must Cover Loan</label>
+            <div class="col-lg-8 fv-row">
+                <input type="checkbox" id="id_guarantor_balance_must_cover_loan" name="guarantor_balance_must_cover_loan" class="form-check-input" >
+                <small class="form-text text-muted">{{ form.guarantor_balance_must_cover_loan.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.guarantor_balance_must_cover_loan.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Minimum Loan Amount Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Minimum Loan Amount</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_minimum_loan_amount" name="minimum_loan_amount" class="form-control form-control-lg form-control-solid" placeholder="Enter minimum loan amount" >
+                <small class="form-text text-muted">{{ form.minimum_loan_amount.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.minimum_loan_amount.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Maximum Loan Amount Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Maximum Loan Amount</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_maximum_loan_amount" name="maximum_loan_amount" class="form-control form-control-lg form-control-solid" placeholder="Enter maximum loan amount" >
+                <small class="form-text text-muted">{{ form.maximum_loan_amount.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.maximum_loan_amount.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Eligible Loan Percentage Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Eligible Loan Percentage (%)</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_eligible_loan_percentage" name="eligible_loan_percentage" step="0.01" class="form-control form-control-lg form-control-solid" placeholder="Enter eligible loan percentage" >
+                <small class="form-text text-muted">{{ form.eligible_loan_percentage.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.eligible_loan_percentage.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Deposit Frequency per Week Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Deposit Frequency per Week</label>
+            <div class="col-lg-8 fv-row">
+                <input type="number" id="id_deposit_frequency_per_week" name="deposit_frequency_per_week" class="form-control form-control-lg form-control-solid" placeholder="Enter frequency" >
+                <small class="form-text text-muted">{{ form.deposit_frequency_per_week.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.deposit_frequency_per_week.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+        <!-- Deposit Day of Week Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Deposit Day of the Week</label>
+            <div class="col-lg-8 fv-row">
+                <select id="id_deposit_day_of_week" name="deposit_day_of_week" class="form-control form-control-lg form-control-solid">
+                    <option value="" disabled selected>Select day</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+                <small class="form-text text-muted">{{ form.deposit_day_of_week.help_text }}</small>
+                <div class="text-danger mt-2">{% for error in form.deposit_day_of_week.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+
+    </div>
+    <!--end::Card body-->
+
+    <!--begin::Actions-->
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+        <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->
+
+
+
+
+
+
+
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Basic info-->
+
+<!--end::Card--></div>
+<!--end::Container--> 
+{% endblock %}
+{% block Javascript%}
+	 
+        
+                   
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+                      
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+                <!--end::Javascript-->
+                    			
+				
+{% endblock%}
+ 

@@ -1,0 +1,117 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% load form_tags %}
+
+{% block css%}
+					
+					<!--begin::Vendor Stylesheets(used for this page only)-->
+                            <link href="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
+                        <!--end::Vendor Stylesheets-->
+	
+				{% endblock%}
+{% block content%}
+
+      <!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+    <!--begin::Card-->
+<!--begin::Basic info-->
+<div class="card mb-5 mb-xl-10">
+    <!--begin::Card header-->
+    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+        <!--begin::Card title-->
+        <div class="card-title m-0">
+            <h4 class="fw-bold m-0">Add New Account <span class="text-danger">{{error}}</span></h4>
+        </div>
+        <!--end::Card title-->
+    </div>
+    <!--begin::Card header-->
+
+    <!--begin::Content-->
+    <div id="kt_account_settings_profile_details" class="collapse show">
+        <div class="container mt-5">
+            <h1 class="mb-4">Step 2: Select Guarantors for Loan Request</h1>
+
+            <!-- Loan Request Details -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    Loan Request Details
+                </div>
+                <div class="card-body">
+                    <p><strong>Loan Amount:</strong> {{ loan_request.amount }}</p>
+                    <p><strong>Member:</strong> {{ loan_request.member.full_name }} - {{ loan_request.member.user.email }} 
+                       ({{ loan_request.member.member_associations.name }})</p>
+                </div>
+            </div>
+
+            <!-- Guarantor Selection -->
+            <h2 class="mb-3">Select Guarantors</h2>
+
+            {% if eligible_members %}
+                <form method="post" class="mb-4">
+                    {% csrf_token %}
+                    <div class="row">
+                        {% for member in eligible_members %}
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="guarantors" id="guarantor{{ member.id }}" value="{{ member.id }}">
+                                    <label class="form-check-label" for="guarantor{{ member.id }}">
+                                        {{ member.first_name }} {{ member.last_name }} - 
+                                        <strong>Balance:</strong> 
+                                        <span class="text-success">
+                                            {{ guarantors_balances|get_item:member.id|default:"0.00" }}
+
+
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Next Step</button>
+                </form>
+            {% else %}
+                <div class="alert alert-warning">
+                    No eligible members available to be guarantors.
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="alert alert-danger mt-4">
+                    {{ error }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Basic info-->
+
+
+<!--end::Card--></div>
+<!--end::Container--> 
+{% endblock %}
+{% block Javascript%}
+	 
+        
+                   
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+                      
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+                <!--end::Javascript-->
+                    			
+				
+{% endblock%}
+ 

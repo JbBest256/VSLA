@@ -1,0 +1,304 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block css%}
+					
+					<!--begin::Vendor Stylesheets(used for this page only)-->
+                            <link href="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
+                        <!--end::Vendor Stylesheets-->
+	
+				{% endblock%}
+{% block content%}
+
+      <!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+    <!--begin::Card-->
+<!--begin::Basic info-->
+<div class="card mb-5 mb-xl-10">
+    <!--begin::Card header-->
+    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+        <!--begin::Card title-->
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Create New Association</h3>
+        </div>
+        <!--end::Card title-->
+    </div>
+    <!--begin::Card header-->
+
+    <!--begin::Content-->
+    <div id="kt_account_settings_profile_details" class="collapse show">
+      <!--begin::Form-->
+<form method="POST" enctype="multipart/form-data" novalidate="novalidate" action="{% url 'create_association' %}" id="kt_account_profile_details_form" class="form">
+    {% csrf_token %}
+    
+    {% for hidden_field in association_form.hidden_fields %}
+        {{ hidden_field }}
+    {% endfor %}
+    
+    {% for hidden_field in membership_form.hidden_fields %}
+        {{ hidden_field }}
+    {% endfor %}
+    
+    {% if association_form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in association_form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if membership_form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in membership_form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!--begin::Card body-->
+    <div class="card-body border-top p-9">
+        <!-- Render AssociationForm fields -->
+        <h2>Association Details</h2>
+        <!-- Association Name Field -->
+        <!--begin::Input group for Profile Image-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Profile Image</label>   
+            <div class="col-lg-8">
+                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{% static 'home/assets/media/svg/avatars/blank.svg' %}')">
+                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url(../assets/media/avatars/300-1.jpg)"></div>
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                        <i class="fas fa-pencil fs-7"></i>
+                        <input type="file" id="id_profile_image" name="profile_image" accept=".png, .jpg, .jpeg"/>
+                        <input type="hidden" name="avatar_remove"/>
+                    </label>
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                        <i class="fas fa-times fs-2"></i>
+                    </span>
+                </div>
+                <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for Name-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Name</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_name" name="name" class="form-control form-control-lg form-control-solid" placeholder="Your Name" />
+                <div class="text-danger mt-2">{% for error in association_form.name.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for Address-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Address</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_address" name="address" class="form-control form-control-lg form-control-solid" placeholder="Your Address" />
+                <div class="text-danger mt-2">{% for error in association_form.address.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for Country-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Country</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_country" name="country" class="form-control form-control-lg form-control-solid" placeholder="Your Country" />
+                <div class="text-danger mt-2">{% for error in association_form.country.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for Currency-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Currency</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_currency" name="currency" class="form-control form-control-lg form-control-solid" placeholder="Your Currency" />
+                <div class="text-danger mt-2">{% for error in association_form.currency.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for Slogan-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Slogan</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_slogan" name="slogan" class="form-control form-control-lg form-control-solid" placeholder="Your Slogan" />
+                <div class="text-danger mt-2">{% for error in association_form.slogan.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for Phone-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Phone</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_phone" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Your Phone Number" />
+                <div class="text-danger mt-2">{% for error in association_form.phone.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for Email-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Email</label>
+            <div class="col-lg-8 fv-row">
+                <input type="email" id="id_email" name="email" class="form-control form-control-lg form-control-solid" placeholder="Your Email" />
+                <div class="text-danger mt-2">{% for error in association_form.email.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!--begin::Input group for About-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">About</label>
+            <div class="col-lg-8 fv-row">
+                <textarea id="id_about" name="about" class="form-control form-control-lg form-control-solid" rows="4" placeholder="About You"></textarea>
+                <div class="text-danger mt-2">{% for error in association_form.about.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        
+
+        <!--begin::Input group for Cover Image-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Cover Image</label>   
+            <div class="col-lg-8">
+                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{% static 'home/assets/media/svg/avatars/blank.svg' %}')">
+                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url(../assets/media/avatars/300-1.jpg)"></div>
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change cover image">
+                        <i class="fas fa-pencil fs-7"></i>
+                        <input type="file" id="id_cover_image" name="cover_image" accept=".png, .jpg, .jpeg"/>
+                        <input type="hidden" name="avatar_remove"/>
+                    </label>
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove cover image">
+                        <i class="fas fa-times fs-2"></i>
+                    </span>
+                </div>
+                <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+        <!-- Add more fields from AssociationForm similarly -->
+
+        <!-- Render MembershipForm fields -->
+        <h2>Founder  Details</h2>
+		<!--begin::Input group for Profile Image-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Profile Image</label>   
+            <div class="col-lg-8">
+                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{% static 'home/assets/media/svg/avatars/blank.svg' %}')">
+                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url(../assets/media/avatars/300-1.jpg)"></div>
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                        <i class="fas fa-pencil fs-7"></i>
+                        <input type="file" id="id_profile_image" name="profile_image" accept=".png, .jpg, .jpeg"/>
+                        <input type="hidden" name="avatar_remove"/>
+                    </label>
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                        <i class="fas fa-times fs-2"></i>
+                    </span>
+                </div>
+                <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+		<!--begin::Input group for Profile Image-->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">National ID or Passport</label>   
+            <div class="col-lg-8">
+                <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{% static 'home/assets/media/svg/avatars/blank.svg' %}')">
+                    <div class="image-input-wrapper w-125px h-125px" style="background-image: url(../assets/media/avatars/300-1.jpg)"></div>
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                        <i class="fas fa-pencil fs-7"></i>
+                        <input type="file" id="id_national_id_or_passport" name="national_id_or_passport" accept=".png, .jpg, .jpeg"/>
+                        <input type="hidden" name="avatar_remove"/>
+                    </label>
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                        <i class="fas fa-times fs-2"></i>
+                    </span>
+                </div>
+                <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            </div>
+        </div>
+        <!--end::Input group-->
+
+        <!-- First Name Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">First Name</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_first_name" name="first_name" class="form-control form-control-lg form-control-solid" placeholder="First name"  />
+                <div class="text-danger mt-2">{% for error in membership_form.first_name.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!-- Last Name Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Last Name</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_last_name" name="last_name" class="form-control form-control-lg form-control-solid" placeholder="Last name"  />
+                <div class="text-danger mt-2">{% for error in membership_form.last_name.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!-- Email Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Email</label>
+            <div class="col-lg-8 fv-row">
+                <input type="email" id="id_email" name="email" class="form-control form-control-lg form-control-solid" placeholder="Email"  />
+                <div class="text-danger mt-2">{% for error in membership_form.email.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+        <!-- Phone Number Field -->
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Phone Number</label>
+            <div class="col-lg-8 fv-row">
+                <input type="text" id="id_phone_number" name="phone_number" class="form-control form-control-lg form-control-solid" placeholder="Phone number"  />
+                <div class="text-danger mt-2">{% for error in membership_form.phone_number.errors %}{{ error }}{% endfor %}</div>
+            </div>
+        </div>
+    </div>
+    <!--end::Card body-->
+
+    <!--begin::Actions-->
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+        <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->
+
+
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Basic info-->
+
+<!--end::Card--></div>
+<!--end::Container--> 
+{% endblock %}
+{% block Javascript%}
+	 
+        
+                   
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+                      
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+                <!--end::Javascript-->
+                    			
+				
+{% endblock%}
+ 

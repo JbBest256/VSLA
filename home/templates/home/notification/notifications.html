@@ -1,0 +1,114 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content%}
+
+						<!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+<!--begin::Card-->
+<div class="card">
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <!--begin::Search-->
+            <div class="d-flex align-items-center position-relative">
+                <i class="ki-outline ki-magnifier fs-3 position-absolute ms-4"></i>
+                <input type="text" class="form-control form-control-sm form-control-solid mw-100 min-w-125px min-w-lg-150px min-w-xxl-200px ps-11" placeholder="Search notifications" />
+            </div>
+            <!--end::Search-->
+        </div>
+    </div>
+
+    <div class="card-body p-0 px-2">
+        <!--begin::Table-->
+<div class="table-responsive">
+    <table class="table table-hover table-row-dashed fs-6 gy-5 my-0" id="kt_inbox_listing">
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Message</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for notification in notifications %}
+                <tr class="{% if not notification.is_read %}fw-bold{% else %}fw-normal{% endif %}">
+                    <!-- Author's Avatar and Name -->
+                    <td class="w-150px w-md-175px">
+                        <a href="#" class="d-flex align-items-center text-gray-900">
+                            <!--begin::Avatar-->
+                            <div class="symbol symbol-35px me-3">
+                                {% if notification.added_by.profile_image %}
+                                    <span class="symbol-label" style="background-image:url('{{ notification.added_by.profile_image.url }}'); background-size: cover;"></span>
+                                {% else %}
+                                    <span class="symbol-label bg-light-info">
+                                        <span class="text-info">{{ notification.added_by.member.first_name|default:"N"|slice:":1" }}</span>
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <!--end::Avatar-->
+
+                            <!--begin::Name-->
+                            <span class="fw-semibold">{{ notification.added_by }} </span>
+                            <!--end::Name-->
+                        </a>
+                    </td>
+
+                    <!-- Notification Message -->
+                    <td>
+                        <div class="text-gray-900 gap-1 pt-2">
+                            <!--begin::Heading-->
+                            <a href="#" class="text-gray-900">
+                                <span class="fw-bold">{{ notification.title }}</span>
+                                <span class="fw-bold d-inline"> - </span>
+                                <span class="d-inline text-muted">{{ notification.message }}</span>
+                            </a>
+                            <!--end::Heading-->
+                        </div>
+                    </td>
+
+                    <!-- Date -->
+                    <td class="w-100px text-end fs-7 pe-9">
+                        <span class="fw-semibold text-muted">{{ notification.created_at|date:"M d" }}</span>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No notifications available</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!--end::Table-->
+
+
+
+    </div>
+</div>
+<!--end::Card-->
+
+
+
+</div>
+<!--end::Container-->                	              	
+
+ 
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/table.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/export-users.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/add.js' %}"></script>
+                            
+                       
+							 <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+{% endblock %}

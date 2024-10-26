@@ -1,0 +1,113 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block css%}
+					
+					<!--begin::Vendor Stylesheets(used for this page only)-->
+                            <link href="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css"/>
+                        <!--end::Vendor Stylesheets-->
+	
+				{% endblock%}
+{% block content%}
+
+      <!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+    <!--begin::Card-->
+<!--begin::Basic info-->
+<div class="card mb-5 mb-xl-10">
+    <!--begin::Card header-->
+    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+        <!--begin::Card title-->
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Create your business</h3>
+        </div>
+        <!--end::Card title-->
+    </div>
+    <!--begin::Card header-->
+
+    <!--begin::Content-->
+    <div id="kt_account_settings_profile_details" class="collapse show">
+        <!--begin::Form-->
+<form method="POST" enctype="multipart/form-data" novalidate action="" id="kt_account_profile_details_form" class="form">
+    {% csrf_token %}
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field }}
+    {% endfor %}
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!--begin::Card body-->
+    <div class="card-body border-top p-9">
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Staff Phone Number</label>
+            <!--end::Label-->
+
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row">
+                <input type="tel" id="phone_number" name="phone_number" class="form-control form-control-lg form-control-solid" placeholder="Staff Phone Number" />
+                <div class="text-danger mt-2">
+                    {% for error in form.phone_number.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <!--end::Col-->
+        </div>
+        
+        
+        
+
+        
+    </div>
+    <!--end::Card body-->
+
+    <!--begin::Actions-->
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+        <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->
+
+
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Basic info-->
+
+<!--end::Card--></div>
+<!--end::Container--> 
+{% endblock %}
+{% block Javascript%}
+	 
+        
+                   
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+                      
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+                <!--end::Javascript-->
+                    			
+				
+{% endblock%}
+ 

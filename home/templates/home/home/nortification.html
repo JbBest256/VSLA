@@ -1,0 +1,67 @@
+{% extends "home/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content%}
+
+						<!--begin::Container-->
+<div id="kt_content_container" class=" container-xxl ">
+    <!--begin::Card-->
+<div class="card">
+    <!--begin::Card header-->
+    <div class="card-header border-0 pt-6">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <!--begin::Search-->
+            <div class="d-flex align-items-center position-relative my-1">
+                <i class="ki-outline ki-magnifier fs-3 position-absolute ms-5"></i>
+                <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search transaction" />
+            </div>
+            <!--end::Search-->
+        </div>
+        <!--end::Card title-->
+
+        
+    </div>
+    <!--end::Card header-->
+
+    <!--begin::Card body-->
+    <div class="card-body py-4">
+       <div class="notifications">
+    <h5>Your Notifications</h5>
+    {% for notification in notifications %}
+        <div class="notification-item{% if not notification.is_read %} unread{% endif %}">
+            <p>{{ notification.message }}</p>
+            <small>{{ notification.created_at|date:"F j, Y, g:i a" }}</small>
+        </div>
+    {% endfor %}
+</div>
+   
+    </div>
+    <!--end::Card body-->
+</div>
+<!--end::Card-->
+
+
+</div>
+<!--end::Container-->                	              	
+
+ 
+        
+                    <!--begin::Vendors Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                        <!--end::Vendors Javascript-->
+        
+                    <!--begin::Custom Javascript(used for this page only)-->
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/table.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/export-users.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/user-management/users/list/add.js' %}"></script>
+                            
+                       
+							 <script src="{% static 'home/assets/js/widgets.bundle.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/widgets.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/apps/chat/chat.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/create-app.js' %}"></script>
+                            <script src="{% static 'home/assets/js/custom/utilities/modals/users-search.js' %}"></script>
+                        <!--end::Custom Javascript-->
+{% endblock %}
